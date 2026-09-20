@@ -775,7 +775,7 @@
               <div class="strategy-card__section">
                 <h4>风险提示</h4>
                 <ul class="strategy-card__list">
-                  <li><span class="tag tag--danger">高风险</span> 实时价格极端波动（9月最高1,075元/兆瓦时，最低-1,111元/兆瓦时）</li>
+                  <li><span class="tag tag--danger">高风险</span> 实时价格极端波动（9月最高1,075元/兆瓦时，最低接近0元/兆瓦时）</li>
                   <li><span class="tag tag--warning">中风险</span> 用户负荷偏差超过允许范围（通常&plusmn;5%）</li>
                 </ul>
               </div>
@@ -983,7 +983,7 @@
                 <span class="risk-item__title">实时价格极端波动</span>
                 <span class="tag tag--warning">中</span>
               </div>
-              <p class="risk-item__desc">9月实时价格标准差达157元/兆瓦时，最高1,075元/兆瓦时、最低-1,111元/兆瓦时（负电价）。实时市场暴露风险显著高于日前市场。</p>
+              <p class="risk-item__desc">9月实时价格标准差达157元/兆瓦时，最高1,075元/兆瓦时、最低接近0元/兆瓦时（午间光伏过剩时段触底限价）。实时市场暴露风险显著高于日前市场。</p>
               <p class="risk-item__mitigation"><strong>应对：</strong>尽量在日前市场完成主要交易；实时市场仅用于偏差调整和套利机会；设置止损阈值。</p>
             </div>
 
@@ -1131,7 +1131,8 @@ function makeBaseOption() {
     },
     yAxis: {
       type: 'value',
-      scale: true,
+      min: 0,
+      max: 1500,
       axisLine: { show: false },
       axisTick: { show: false },
       splitLine: { lineStyle: { color: COLORS.grid } },
@@ -1229,7 +1230,7 @@ function renderSupplyForecast(data) {
     ...makeBaseOption(),
     legend: { ...makeBaseOption().legend, data: ['负荷预测', '光伏出力', '风电出力'] },
     xAxis: { ...makeBaseOption().xAxis, data: labels, axisLabel: { ...makeBaseOption().xAxis.axisLabel, fontSize: 10 } },
-    yAxis: { ...makeBaseOption().yAxis, name: 'MW', nameTextStyle: { color: COLORS.label } },
+    yAxis: { ...makeBaseOption().yAxis, name: 'MW', scale: true, min: null, max: null, nameTextStyle: { color: COLORS.label } },
     series: [
       { name: '负荷预测', type: 'line', data: s.oct26_load, smooth: true, symbol: 'none',
         lineStyle: { color: COLORS.series1, width: 2 }, itemStyle: { color: COLORS.series1 },
