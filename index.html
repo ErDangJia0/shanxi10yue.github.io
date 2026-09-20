@@ -1277,22 +1277,17 @@ function renderScenarioBand(data) {
   window.addEventListener('resize', () => chart.resize());
 }
 
-function waitForEcharts(cb, r) {
-  r = r || 50;
-  if (typeof echarts !== 'undefined') { cb(); }
-  else if (r > 0) { setTimeout(function() { waitForEcharts(cb, r-1); }, 100); }
-  else { console.error('ECharts failed to load'); }
-}
-document.addEventListener('DOMContentLoaded', function() {
-  waitForEcharts(function() {
-    chartData = initBase();
-    if (!chartData) { console.error('No chart data'); return; }
-    renderMonthlyTrend(chartData);
-    renderHourlyPattern(chartData);
-    renderDailyForecast(chartData);
-    renderSupplyForecast(chartData);
-    renderScenarioBand(chartData);
-  });
+document.addEventListener('DOMContentLoaded', async () => {
+  chartData = initBase();
+  if (!chartData) {
+    try { chartData = await loadChartData(); } catch (e) { console.error('Failed to load chart data', e); return; }
+  }
+  if (!chartData) return;
+  renderMonthlyTrend(chartData);
+  renderHourlyPattern(chartData);
+  renderDailyForecast(chartData);
+  renderSupplyForecast(chartData);
+  renderScenarioBand(chartData);
 });
 
 </script>
